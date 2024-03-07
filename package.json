@@ -1,0 +1,11 @@
+{
+  "name": "snapchat-img-logger",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Saahil <neon@saahild.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "puppeteer": "^22.0.0"
+  }
+}
