@@ -27,7 +27,8 @@ fetch(process.env.WEBHOOK_URL,  {
 const getFileType = (await import('file-type')).fileTypeFromBuffer;
 
     let recordImages = false;
-    const browser = await puppeteer.launch({ headless: process.env.HEADLESS, args: ['--no-sandbox', '--disable-setuid-sandbox']});
+    console.log(Boolean(process.env.HEADLESS), process.env.HEADLESS)
+    const browser = await puppeteer.launch({ headless: (process.env.HEADLESS  !== "false"), args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
     page.on('response', async response => {
         const url = response.url();
@@ -40,7 +41,7 @@ const getFileType = (await import('file-type')).fileTypeFromBuffer;
                 const fileName = url.split('/').pop() + `.${ext}`;
                 const filePath = path.resolve(__dirname, 'assets', fileName);
                 // if(fs.readdirSync(path.join(__dirname, 'assets')).some(e => e.startsWith(fileName))) return console.log("File already exists")
-                if(Boolean(process.env.SAVE_FILE)) {
+                if(process.env.SAVE_FILE !== "false") {
                     const writeStream = fs.createWriteStream(filePath);
                 writeStream.write(file);
                 }
