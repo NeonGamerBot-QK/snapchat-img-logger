@@ -4,7 +4,12 @@ const fs = require('fs');
 const fetch = require('node-fetch')
 const path = require('path');
 const wait = require('util').promisify(setTimeout);
-const FormData = require('form-data')
+const FormData = require('form-data')                                                                             
+function awaitInput() {
+return new Promise((res) => {
+process.stdin.on('data', res)
+})
+}
 async function uploadDiscord(file, fileName) {
     fileName = `SPOILER_`+fileName
     const form = new FormData();
@@ -52,7 +57,7 @@ const getFileType = (await import('file-type')).fileTypeFromBuffer;
     await page.goto('https://web.snapchat.com');
     // await page.waitForSelector('ConsumerNavItem_link__r7__Z');
     // await page.waitForNetworkIdle();
-await wait(1500);
+await wait(2500);
    
     page.setDefaultNavigationTimeout(0);
     // if(fs.existsSync('cookies.json')) {
@@ -72,30 +77,41 @@ await wait(1500);
             document.getElementsByClassName('ConsumerNavItem_link__r7__Z')[2].click()
         })
         await page.waitForNavigation();
+        await wait(4750)
+        // check for cookie agreement
+        await page.evaluate(() => {
+            if(document.getElementsByClassName('sdsm-button') && document.getElementsByClassName('sdsm-button')[1]) document.getElementsByClassName('sdsm-button')[1].click()
+        })
         await page.waitForSelector('[type="text"]')
         await page.type('[type="text"]', process.env.SNAPCHAT_USERNAME);
-        await wait(750);
-        await page.click('button[type="submit"]');
-        await page.waitForNavigation();
+        await wait(1750);
+        // captcha
+        console.log("Please solve the captcha and press enter")
+       await  awaitInput()
+       // after captch it sends u to next page
+        // await page.click('button[type="submit"]');
+        // await page.waitForNavigation();
         await page.waitForSelector('[type="password"]')
         await page.type('[type="password"]', process.env.SNAPCHAT_PASSWORD);
-        await wait(750);
+        await wait(1750);
+        console.log("Captcha 2")
+        awaitInput();
         await page.click('button[type="submit"]');
         await page.waitForNavigation();
         // await page.waitForSelector('') 
 // fs.writeFileSync('cookies.json', JSON.stringify(await page.cookies()))    
     // }
-       await wait(2200);
+       await wait(3200);
     await page.evaluate(() => {
       if( document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0])  document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0].click()
     })
-await wait(700);
+await wait(1700);
 // theres a second one lmao
 await page.evaluate(() => {
     if( document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0])  document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0].click()
   })
     await page.waitForSelector('.ReactVirtualized__Grid__innerScrollContainer')
-    await wait(5500);
+    await wait(6500);
     await page.evaluate((index) => {
         const els = Array.from(document.getElementsByClassName('ReactVirtualized__Grid__innerScrollContainer')[0].children)
        return  els.find(e => {
