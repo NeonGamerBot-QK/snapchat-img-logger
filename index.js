@@ -148,6 +148,8 @@ await wait(2500);
 // fs.writeFileSync('cookies.json', JSON.stringify(await page.cookies()))    
     // }
        await wait(3200);
+       //temp
+    await page.goto('https://'+new URL(await page.url()).hostname +"/"+process.env.SNAPCHAT_CHAT_INDEX)
     await page.evaluate(() => {
       if( document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0])  document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0].click()
     })
@@ -159,18 +161,26 @@ await page.evaluate(() => {
     await page.waitForSelector('.ReactVirtualized__Grid__innerScrollContainer')
     await wait(6500);
     
-    await page.evaluate((index) => {
-        const els = Array.from(document.getElementsByClassName('ReactVirtualized__Grid__innerScrollContainer')[0].children)
-       return  els.find(e => {
-            const propName = Object.keys(e).find(key => key.startsWith('__reactFiber$'))
-            return e[propName].key === index
-        }).children[0].click()
-        //.find(el => el.__reactFiber$kkvo4eqc6kn.key === index).click()
-    }, process.env.SNAPCHAT_CHAT_INDEX);
+    // await page.evaluate((index) => {
+    //     const els = Array.from(document.getElementsByClassName('ReactVirtualized__Grid__innerScrollContainer')[0].children)
+    //    return  els.find(e => {
+    //         const propName = Object.keys(e).find(key => key.startsWith('__reactFiber$'))
+    //         return e[propName].key === index
+    //     }).children[0].click()
+    //     //.find(el => el.__reactFiber$kkvo4eqc6kn.key === index).click()
+    // }, process.env.SNAPCHAT_CHAT_INDEX);
+    // directly linked to chat
    if (process.env.AUTO_SCROLL !== "false") {
     setInterval(async () => {
         await  page.mouse.wheel({ deltaY: -50 })
       }, 1000)
+   } else {
+    setInterval(async () => {
+        await  page.mouse.wheel({ deltaY: 10 })
+      }, 1000)
+      setInterval(() => {
+        page.reload()
+      }, 1000 * 60 * 60)
    }
     recordImages = true;
 
