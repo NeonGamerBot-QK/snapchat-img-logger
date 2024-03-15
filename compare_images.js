@@ -1,0 +1,5 @@
+const fs = require('fs')
+const buf1 = fs.readFileSync('vid1.mp4')
+const buf2 = fs.readFileSync('vid2.mp4')
+console.log(buf1.length, buf2.length)
+console.log(buf1 == buf2)

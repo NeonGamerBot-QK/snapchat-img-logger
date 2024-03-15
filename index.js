@@ -48,6 +48,9 @@ const getFileType = (await import('file-type')).fileTypeFromBuffer;
                 console.log("got buffer")
                 // do not give ext, use script to give it
                 const { ext } = await getFileType(file); 
+                if(file.length < 15_000) return console.log("Buffer too small");
+
+                if(fs.readdirSync(path.join(__dirname, 'assets')).some(e => fs.readFileSync(path.join(__dirname, 'assets', e)).length === file.length)) return console.log("File already exists")
                 const fileName = url.split('/').pop() + `.${ext}`;
                 const filePath = path.resolve(__dirname, 'assets', fileName);
                 // if(fs.readdirSync(path.join(__dirname, 'assets')).some(e => e.startsWith(fileName))) return console.log("File already exists")
@@ -70,6 +73,9 @@ const getFileType = (await import('file-type')).fileTypeFromBuffer;
                     try {
                     await response.buffer().then(async file => {
                         console.log("got buffer")
+                        if(file.length < 15_000) return console.log("Buffer too small");
+
+                        if(fs.readdirSync(path.join(__dirname, 'assets')).some(e => fs.readFileSync(path.join(__dirname, 'assets', e)).length === file.length)) return console.log("File already exists")
                         // do not give ext, use script to give it
                         const { ext } = await getFileType(file); 
                         const fileName = url.split('/').pop() + `.${ext}`;
@@ -159,6 +165,9 @@ await page.evaluate(() => {
     if( document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0])  document.getElementsByClassName('NRgbw eKaL7 Bnaur')[0].click()
   })
     await page.waitForSelector('.ReactVirtualized__Grid__innerScrollContainer')
+    await page.evaluate(() => {
+        document.getElementsByClassName('ReactVirtualized__Grid__innerScrollContainer')[0].remove()
+    })
     await wait(6500);
     
     // await page.evaluate((index) => {
