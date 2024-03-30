@@ -73,7 +73,7 @@ const getFileType = (await import('file-type')).fileTypeFromBuffer;
                     try {
                     await response.buffer().then(async file => {
                         console.log("got buffer")
-                        if(file.length < 15_000) return console.log("Buffer too small");
+                        if(file.length < 35_000) return console.log("Buffer too small");
 
                         if(fs.readdirSync(path.join(__dirname, 'assets')).some(e => fs.readFileSync(path.join(__dirname, 'assets', e)).length === file.length)) return console.log("File already exists")
                         // do not give ext, use script to give it
