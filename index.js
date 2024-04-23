@@ -121,6 +121,7 @@ await wait(2500);
 try {
         await page.waitForNavigation({ timeout: 5000 });
 } catch (e){}
+    await wait(5000)
         await page.evaluate(() => {
             document.getElementsByClassName('ConsumerNavItem_link__r7__Z')[2].target = ""
             document.getElementsByClassName('ConsumerNavItem_link__r7__Z')[2].click()
