@@ -118,6 +118,9 @@ await wait(2500);
     //     await wait(4_500)
     //     await page.reload()
     // } else {
+try {
+        await page.waitForNavigation({ timeout: 5000 });
+} catch (e){}
         await page.evaluate(() => {
             document.getElementsByClassName('ConsumerNavItem_link__r7__Z')[2].target = ""
             document.getElementsByClassName('ConsumerNavItem_link__r7__Z')[2].click()
